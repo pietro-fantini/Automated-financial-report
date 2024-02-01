@@ -8,4 +8,6 @@ To this, in one click!
 
 ![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/8d1d4936-2395-4e9e-9123-d7ce695a26de)
 
-*data modified to censor*
+![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/844959f7-ce02-4e6e-82be-be27fec023fa)
+
+*data modified for privacy*
