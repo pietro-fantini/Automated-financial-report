@@ -1,0 +1,751 @@
+Sub MP_Breakdown()
+
+ActiveSheet.Name = "Data"
+
+Range("AU1").Select
+    ActiveCell.FormulaR1C1 = "Total"
+   Dim N As Long
+   N = Cells(Rows.Count, "A").End(xlUp).Row + 1
+   Cells(N, "A").Value = Range("AU1").Value
+   Cells(N, "B").Value = Range("AU1").Value
+   Cells(N, "C").Value = Range("AU1").Value
+       Range("AU1").Select
+    Selection.ClearContents
+    
+    Range("A1").Select
+Selection.AutoFilter
+    ActiveSheet.Range("$A$1:$AI$989").AutoFilter Field:=3, Criteria1:=Array( _
+        "Brother", "Canon", "Epson", "HP Inc.", "Total"), Operator:=xlFilterValues
+    ActiveSheet.Range("$A$1:$AI$989").AutoFilter Field:=1, Criteria1:=Array( _
+        "BROTK", "CANOO", "EPSON", "HEWLJ", "Total"), Operator:=xlFilterValues
+    ActiveWindow.SmallScroll Down:=12
+    'Range("C989").Select
+    'ActiveCell.FormulaR1C1 = "Total"
+    'Range("B989").Select
+    'ActiveCell.FormulaR1C1 = "Total"
+    'Range("A989").Select
+    'ActiveCell.FormulaR1C1 = "Total"
+    'Range(Selection, Selection.End(xlUp)).Select
+    'Range(Selection, Selection.End(xlToRight)).Select
+    
+    
+    Cells.Select
+    Selection.Copy
+    
+    
+    Sheets.Add After:=ActiveSheet
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        ActiveSheet.Name = "WBR"
+    Range("B1").Select
+    Application.CutCopyMode = False
+    Selection.AutoFilter
+    ActiveSheet.Range("$A$1:$AI$38").AutoFilter Field:=2, Criteria1:=Array( _
+        "328451", "679831071", "704403121", "712115121"), Operator:=xlFilterValues
+    Rows("2:37").Select
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.ShowAllData
+    Columns("A:A").Select
+    Selection.Delete Shift:=xlToLeft
+    
+        Range("A1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    ActiveWorkbook.Worksheets("WBR").AutoFilter.Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("WBR").AutoFilter.Sort.SortFields.Add2 Key:= _
+        Range("B2:B22"), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption _
+        :=xlSortNormal
+    ActiveWorkbook.Worksheets("WBR").AutoFilter.Sort.SortFields.Add2 Key:= _
+        Range("A2:A22"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("WBR").AutoFilter.Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    
+    
+    
+    Columns("A:A").Select
+    Selection.Cut
+    Columns("C:C").Select
+    Selection.Insert Shift:=xlToRight
+    Columns("F:G").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("G:H").Select
+    Range("H1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("H:I").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("I:J").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("J:K").Select
+    Range("K1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("K:L").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("L:M").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("M:N").Select
+    Range("N1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("N:O").Select
+    Range("O1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("O:P").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Net Ordered GMS (€MM)"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "WoW CtC"
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "YoY CtC"
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "Net PPM (%)"
+    Range("G1").Select
+    ActiveCell.FormulaR1C1 = "WoW CtC"
+    Range("H1").Select
+    ActiveCell.FormulaR1C1 = "YoY CtC"
+    Range("I1").Select
+    ActiveCell.FormulaR1C1 = "CM (%)"
+    Range("J1").Select
+    ActiveCell.FormulaR1C1 = "WoW CtC"
+    Range("K1").Select
+    ActiveCell.FormulaR1C1 = "YoY CtC"
+    Range("L1").Select
+    ActiveCell.FormulaR1C1 = "SoROOS (%)"
+    Range("M1").Select
+    ActiveCell.FormulaR1C1 = "WoW CtC"
+    Range("N1").Select
+    ActiveCell.FormulaR1C1 = "YoY CtC"
+    Columns("C:C").Select
+    Selection.Insert Shift:=xlToRight
+    Range("C3").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],'[Macro_Print_WBR.xlsm]MP ID'!R1C1:R9C2,2,0)"
+    Range("C3").Select
+    Selection.AutoFill Destination:=Range("C3:C22"), Type:=xlFillDefault
+    Range("C3:C22").Select
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "MP  ID"
+    Range("C2").Select
+    ActiveCell.FormulaR1C1 = "Total"
+    Range("C1:C22").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Columns("B:B").Select
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    Range("A3").Select
+    ActiveCell.FormulaR1C1 = "HP Inc."
+    Range("A3").Select
+    ActiveCell.FormulaR1C1 = "HP"
+    Range("A4").Select
+    ActiveCell.FormulaR1C1 = "HP"
+    Range("A5").Select
+    ActiveCell.FormulaR1C1 = "HP"
+    Range("A6").Select
+    ActiveCell.FormulaR1C1 = "HP"
+    Range("A7").Select
+    ActiveCell.FormulaR1C1 = "HP"
+    Range("F2:F22").Select
+    Selection.Style = "Percent"
+    Range("I2:I22").Select
+    Selection.Style = "Percent"
+    Range("L2:L22").Select
+    Selection.Style = "Percent"
+    Range("Q2").Select
+    ActiveCell.FormulaR1C1 = "=LEFT(RC[-10],FIND("" "",RC[-10],1))"
+    Range("Q2").Select
+    Selection.AutoFill Destination:=Range("Q2:Q22"), Type:=xlFillDefault
+    Range("Q2:Q22").Select
+    Selection.AutoFill Destination:=Range("Q2:R22"), Type:=xlFillDefault
+    Range("Q2:R22").Select
+    Selection.Copy
+    Range("G2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("Q2").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("T2").Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    Selection.AutoFill Destination:=Range("T2:U2"), Type:=xlFillDefault
+    Range("T2:U2").Select
+    Selection.AutoFill Destination:=Range("T2:U22"), Type:=xlFillDefault
+    Range("T2:U22").Select
+    Range("T2:U2").Select
+    Selection.Copy
+    Range("W2").Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    Selection.AutoFill Destination:=Range("W2:X22"), Type:=xlFillDefault
+    Range("W2:X22").Select
+    Range("T2:U22").Select
+    Selection.Copy
+    Range("J2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("W2:X22").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("M2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("Q2:X22").Select
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    
+    
+    
+    Range("R2").Select
+    ActiveCell.FormulaR1C1 = "=RC[-15]/10^6"
+    Range("R2").Select
+    Selection.AutoFill Destination:=Range("R2:T2"), Type:=xlFillDefault
+    Range("R2:T2").Select
+    Selection.AutoFill Destination:=Range("R2:T22"), Type:=xlFillDefault
+    Range("R2:T22").Select
+    Selection.Copy
+    Range("C2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("R2:T22").Select
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    Range("C2:E22").Select
+    Selection.NumberFormat = "0.00000"
+    Selection.NumberFormat = "0.0000"
+    Selection.NumberFormat = "0.000"
+    Selection.NumberFormat = "0.00"
+    Range("F2:F22").Select
+    Selection.NumberFormat = "0.0%"
+    Range("I2:I22").Select
+    Selection.NumberFormat = "0.0%"
+    Range("L2:L22").Select
+    Selection.NumberFormat = "0.0%"
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Company"
+    Cells.Select
+    Cells.EntireColumn.AutoFit
+    Range("A1:N22").Select
+    With Selection.Font
+        .Name = "Amazon Ember"
+        .Size = 11
+        .Strikethrough = False
+        .Superscript = False
+        .Subscript = False
+        .OutlineFont = False
+        .Shadow = False
+        .Underline = xlUnderlineStyleNone
+        .ThemeColor = xlThemeColorLight1
+        .TintAndShade = 0
+        .ThemeFont = xlThemeFontNone
+    End With
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Cells.Select
+    Cells.EntireColumn.AutoFit
+    
+    Range("B2").Select
+    Selection.ClearContents
+            Range("A4:A7").Select
+    Selection.ClearContents
+            Range("A9:A12").Select
+    Selection.ClearContents
+            Range("A14:A17").Select
+    Selection.ClearContents
+            Range("A19:A22").Select
+    Selection.ClearContents
+    
+    Range("A2:B2").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    
+
+    
+    
+    Range("A3:A7").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    Range("A8:A12").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    Range("A13:A17").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    Range("A18:A22").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    Range("C1").Select
+    Selection.AutoFilter
+    Range("A1:N22").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Range("A1:N1").Select
+    Selection.Font.Bold = True
+    Range("A3:A22").Select
+    Selection.Font.Bold = True
+    Range("A2:B2").Select
+    Selection.Font.Bold = True
+    Range("A1:N22").Select
+    Selection.Font.Size = 10
+    Cells.Select
+    Cells.EntireColumn.AutoFit
+    Range("A1").Select
+    
+    Sheets("Data").Select
+
+Dim F As Long
+   F = Cells(Rows.Count, "G").End(xlUp).Row
+   Cells(F, "G").Select
+    Selection.Copy
+    
+        Sheets("WBR").Select
+   Range("S1").Select
+    ActiveSheet.Paste
+    
+    Sheets("Data").Select
+    
+       F = Cells(Rows.Count, "H").End(xlUp).Row
+   Cells(F, "H").Select
+    Selection.Copy
+    
+        Sheets("WBR").Select
+   Range("T1").Select
+    ActiveSheet.Paste
+    
+    
+    
+     Columns("F:F").Select
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "=RC[-2]*R1C21*10000/R2C[-2]"
+    Range("F2").Select
+    Selection.AutoFill Destination:=Range("F2:G2"), Type:=xlFillDefault
+    Range("F2:G2").Select
+    Columns("G:G").EntireColumn.AutoFit
+    Columns("G:G").Select
+    Columns("F:F").EntireColumn.AutoFit
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "=RC[-2]*R1C[15]*10000/R2C[-2]"
+    Range("F2").Select
+    Selection.AutoFill Destination:=Range("F2:G2"), Type:=xlFillDefault
+    Range("F2:G2").Select
+    Selection.AutoFill Destination:=Range("F2:G22")
+    Range("F2:G22").Select
+    Selection.NumberFormat = "0.0"
+    Selection.NumberFormat = "0"
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("D1:E1").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("F1").Select
+    ActiveSheet.Paste
+    Columns("D:E").Select
+    Range("E1").Activate
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    Range("D3:E22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    Range("D3:D22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Range("E3:E22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Range("D2:E2").Select
+    Selection.FormatConditions.Delete
+    Cells.Select
+    Cells.EntireColumn.AutoFit
+    Range("S1:T1").Select
+    Selection.ClearContents
+    
+    
+    
+     Range("F2:F22").Select
+    Selection.NumberFormat = "0%"
+    Range("I2:I22").Select
+    Selection.NumberFormat = "0%"
+    Range("L2:L22").Select
+    Selection.NumberFormat = "0%"
+    Range("G3:G22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Range("H3:H22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Range("J3:J22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Range("K3:K22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    
+     Range("A1:N22").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Range("M3:M22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    Range("N3:N22").Select
+    Selection.FormatConditions.AddColorScale ColorScaleType:=3
+    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+    Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+        xlConditionValueLowestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+        .Color = 8109667
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+        xlConditionValuePercentile
+    Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+    With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+        .Color = 8711167
+        .TintAndShade = 0
+    End With
+    Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+        xlConditionValueHighestValue
+    With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+        .Color = 7039480
+        .TintAndShade = 0
+    End With
+    
+    
+End Sub
