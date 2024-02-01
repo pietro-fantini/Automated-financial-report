@@ -2,7 +2,7 @@
 
 **Solution**: I created some Excel VBA macros which automatically tranform the data from this:
 
-![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/5cc6a08d-be16-4d17-9135-476ff05c201f)
+![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/ae0dfefb-14f5-47aa-827e-a70255f10c2e)
 
 To this, in one click!
 
