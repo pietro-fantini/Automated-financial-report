@@ -10,4 +10,6 @@ To this, in one click!
 
 ![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/844959f7-ce02-4e6e-82be-be27fec023fa)
 
+**UPDATE:** I am currently working on a centralized solution to have real time data fetched directly from the central data system using [Amazon Redshift](https://github.com/pietro-fantini/Automated-financial-report/blob/main/WBR-SQL-query)https://github.com/pietro-fantini/Automated-financial-report/blob/main/WBR-SQL-query, Quicksight and ETL manager.
+
 *data modified for privacy*
