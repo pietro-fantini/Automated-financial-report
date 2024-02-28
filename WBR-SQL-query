@@ -1,0 +1,124 @@
+--Table name changed for privacy
+WITH rates_prel as (
+    SELECT
+        FX_MONTH,
+        SUM(CASE WHEN CURRENCY = 'EUR' THEN CONVERSION ELSE 0 END) AS CURRENCY_EUR,
+        SUM(CASE WHEN CURRENCY = 'GBP' THEN CONVERSION ELSE 0 END) AS CURRENCY_GBP,
+        SUM(CASE WHEN CURRENCY = 'PLN' THEN CONVERSION ELSE 0 END) AS CURRENCY_PLN,
+        SUM(CASE WHEN CURRENCY = 'SEK' THEN CONVERSION ELSE 0 END) AS CURRENCY_SEK
+    FROM
+        table1
+    WHERE
+        SCENARIO = 'OP2'
+        AND CURRENCY IN ('EUR','GBP','PLN','SEK')
+        AND FX_MONTH BETWEEN DATE_TRUNC('YEAR', TO_DATE(GETDATE()-1, 'YYYYMMDD') - 28) AND TO_DATE(GETDATE()-1,'YYYY/MM/DD')
+    GROUP BY
+        FX_MONTH
+),
+rates as (
+SELECT 3 as MARKETPLACE_ID, FX_MONTH, CAST(CURRENCY_GBP/CURRENCY_EUR AS DECIMAL (6,5)) EXCHANGE_RATE
+    FROM RATES_PREL
+    
+    UNION ALL
+    
+    SELECT 712115121 as MARKETPLACE_ID, FX_MONTH, CAST(CURRENCY_PLN/CURRENCY_EUR AS DECIMAL (6,5)) EXCHANGE_RATE
+    FROM RATES_PREL
+    
+    UNION ALL
+    
+    SELECT 704403121 as MARKETPLACE_ID, FX_MONTH, CAST(CURRENCY_SEK/CURRENCY_EUR AS DECIMAL (6,5)) EXCHANGE_RATE
+    FROM RATES_PREL
+    
+    UNION ALL
+    
+    SELECT 1 as MARKETPLACE_ID, FX_MONTH, CAST(1/CURRENCY_EUR AS DECIMAL (6,5)) EXCHANGE_RATE
+    FROM RATES_PREL   
+),
+asin_list as (
+    SELECT DISTINCT 
+        mp.ASIN
+        ,mp.marketplace_id
+        ,mp.subcategory_code
+        ,VH.company as Manu_Company_Name
+    FROM
+        table2 mp
+    LEFT JOIN table3 vh ON mp.manufacturer_code = vh.child_vendor_code
+    WHERE
+        mp.REGION_ID = 2
+        AND mp.MARKETPLACE_ID in (3, 4, 5, 35691, 44551, 328451, 679831071, 704403121, 712115121)
+        AND mp.subcategory_code in (14700505, 14700510, 14700545, 14700550, 14700555, 14700565, 14700570, 14700560, 22913000)
+),
+
+gms_data as (
+    SELECT
+     bda.asin
+     ,bda.marketplace_id
+     ,bda.activity_day
+     ,sum(bda.gross_ordered_units) as gross_ordered_units
+     ,sum(bda.net_ordered_gms_amt) as net_ordered_gms
+     
+    FROM table4 bda
+    
+    WHERE bda.activity_day >= to_date('2023/01/01','YYYY/MM/DD') AND bda.IS_RETAIL_MERCHANT = 'Y'
+    
+    GROUP BY 1,2,3
+    ),
+
+soroos_data as (
+    select
+        crap.asin
+        ,crap.marketplace_id
+        ,crap.snapshot_week
+    	,sum(crap.glance_views) as total_gv
+        ,sum(case when attribution_bucket_level2 NOT ILIKE 'Not%Applicable' AND attribution_bucket_level1 ILIKE 'OOS' THEN crap.glance_views ELSE 0 end) AS total_soroos
+        
+        FROM table5 crap
+        
+        WHERE crap.snapshot_week >= to_date('2023/01/01','YYYY/MM/DD')
+        
+        GROUP BY 1,2,3
+)
+
+SELECT
+
+dmp.ASIN
+,dmp.marketplace_id
+,TRUNC(owce.ship_day) as Day_Date
+,rd.reporting_week_of_year AS week
+,rd.CALENDAR_YEAR AS year
+,dmp.Manu_Company_Name
+,CASE
+    WHEN dmp.subcategory_code IN (22913000) THEN 'Supplies'
+    ELSE 'Hardware'
+END AS Business
+,CAST(gms.gross_ordered_units as INT) as quantity_ordered
+,sum(owce.quantity_shipped) as quantity_shipped
+,(sum(owce.revenue_share_amt) + sum(owce.fulfillment_fees_amt) + sum(owce.giftwrap_revenue_amt) + sum(owce.shipping_revenue_amt) + sum(owce.subscription_revenue_amt) + sum(owce.closing_fees_amt) - sum(owce.sales_discounts_amt) - sum(owce.refunds_revenue_amt) + sum(owce.liquidation_revenue_amt) + sum(owce.wd_liquidation_revenue_amt) + sum(owce.other_revenue_amt) - sum(owce.seller_credits_amt))*nvl(RATES.EXCHANGE_RATE,1) as Total_Revenue                  
+,sum(owce.revenue_share_amt)*nvl(RATES.EXCHANGE_RATE,1) as Revenue
+,gms.net_ordered_gms*nvl(RATES.EXCHANGE_RATE,1) as net_ordered_gms
+,(sum(owce.revenue_share_amt) - sum(owce.PRODUCT_COGS_AMT) + sum(owce.DISCRETIONARY_COOP_AMT) + Sum(owce.QUICK_PAY_DISCOUNTS_AMT) + sum(owce.VENDOR_ALLOWANCES_AMT) - sum(owce.SALES_DISCOUNTS_AMT))*nvl(RATES.EXCHANGE_RATE,1) as Num_Net_PPM
+,sum(owce.contribution_profit_amt)*nvl(RATES.EXCHANGE_RATE,1) as CP
+,scrap.total_gv
+,scrap.total_soroos
+
+from table6 owce
+
+INNER JOIN asin_list dmp
+    ON owce.asin = dmp.ASIN AND owce.marketplace_id = dmp.marketplace_id
+    
+LEFT JOIN RATES 
+    ON rates.marketplace_id = owce.marketplace_id and DATE_TRUNC('month',owce.ship_day) = RATES.FX_MONTH
+
+LEFT JOIN gms_data gms
+    ON owce.asin = gms.asin AND owce.ship_day = gms.activity_day AND owce.marketplace_id = gms.marketplace_id
+    
+LEFT JOIN soroos_data scrap
+    ON owce.asin = scrap.asin AND owce.marketplace_id = scrap.marketplace_id AND date_trunc('week', owce.ship_day) = date_trunc('week', scrap.snapshot_week)
+    
+LEFT JOIN andes.booker.O_REPORTING_DAYS rd
+    ON owce.ship_day = rd.calendar_day
+
+WHERE owce.ship_day >= to_date('2023/01/01','YYYY/MM/DD') AND owce.channel_type < 2000
+
+GROUP BY
+1,2,3,4,5,6,7,8,12,15,16,RATES.EXCHANGE_RATE
