@@ -8,7 +8,7 @@ To this, in one click!
 
 ![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/8d1d4936-2395-4e9e-9123-d7ce695a26de)
 
-![image](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/844959f7-ce02-4e6e-82be-be27fec023fa)
+![auto 2](https://github.com/pietro-fantini/Automated-financial-report/assets/136325329/5c8d1a65-f353-4bdc-94d4-a98370363978)
 
 **UPDATE:** I am currently working on a centralized solution to have real time data fetched directly from the central data system using [Amazon Redshift](https://github.com/pietro-fantini/Automated-financial-report/blob/main/WBR-SQL-query)https://github.com/pietro-fantini/Automated-financial-report/blob/main/WBR-SQL-query, Quicksight and ETL manager.
 
